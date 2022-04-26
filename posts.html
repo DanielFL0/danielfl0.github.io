@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="./styles/style.css">
 </head>
 
 <body>
     <div class="container">
+	<canvas id="background"></canvas>
         <picture>
             <img src="https://avatars.githubusercontent.com/u/39070317?v=4" alt="berserk">
         </picture>
@@ -20,20 +21,20 @@
                 <li><a href="about.html">About</a></li>
             </ul>
         </nav>
-        <h1>Links</h1>
-        <resources>
+        <h1>Posts</h1>
+        <posts>
             <ul>
-		<li>
-		    <a href="https://people.inf.ethz.ch/wirth/">Niklaus Wirth's homepage</a>
-		</li>
                 <li>
-		    <a href="https://www.cs.cornell.edu/courses/cs2022/2011fa/">Introduction to C</a>
+                    <post>
+                        <img src="../thumbnails/algorithms.jpg" alt="algorithms">
+                        <a href="../posts/algorithmicjourney.html">A deep journey into algorithms</a>
+                    </post>
                 </li>
             </ul>
-        </resources>
+        </posts>
         <h1>Network</h1>
         <footer>
-            <ul>	
+            <ul>
                 <li>
                     <a href="https://github.com/DanielFL0">Github</a>
                 </li>
@@ -41,6 +42,6 @@
         </footer>
     </div>
 </body>
-<script src="../scripts/p5.js"></script>
-<script src="../scripts/sketch.js"></script>
+<script src="./scripts/p5.js"></script>
+<script src="./scripts/sketch.js"></script>
 </html>
