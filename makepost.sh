@@ -1,9 +1,10 @@
 #!/bin/bash
+base_file="thread.html"
 search_dir="./posts"
 rm -rf $search_dir/*.html
 for file in $search_dir/*
 do
-  kramdown $file -i markdown -o html >> $file.html
+  cp $base_file $file.html
   git add $file
   git add $file.html
   git commit -m "Add $file"

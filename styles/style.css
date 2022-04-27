@@ -55,13 +55,13 @@ posts ul {
 post img {
   width: 75px;
   height: 75px;
-  float: inline-start;
+  text-align: left;
 }
 post a {
   padding: 5px;
   color: inherit;
-  text-align: justify;
-  float: inline-end;
+  text-align: right;
+  float: right;
   text-decoration: none;
 }
 
@@ -77,9 +77,16 @@ about ul {
   list-style-image: url("../assets/blobkitty.gif");
 }
 
+thread h1 {
+  color: inherit;
+  text-align: justify;
+}
 thread p {
   color: inherit;
   text-align: justify;
+}
+thread a {
+  color: inherit;
 }
 
 footer ul {
