@@ -77,6 +77,19 @@ about ul {
   list-style-image: url("../assets/blobkitty.gif");
 }
 
+resume row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+resume column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+}
+
 thread h1 {
   color: inherit;
   text-align: justify;
