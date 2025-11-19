@@ -1,59 +1,207 @@
-<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>My Blog</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style>
-      body {
-        margin: 2em;
-        background: #f9f9f9;
-      }
-      header {
-        text-align: center;
-        margin-bottom: 2em;
-      }
-      article {
-        background: #fff;
-        padding: 1.5em;
-        margin-bottom: 1.5em;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px #eee;
-      }
-      h1,
-      h2 {
-        color: #333;
-      }
-      .date {
-        color: #888;
-        font-size: 0.9em;
-      }
-    </style>
-  </head>
-  <body>
-    <header>
-      <h1>Daniel's Blog</h1>
-      <p>Welcome to my personal blog!</p>
-    </header>
 
-    <main>
-      <article>
-        <h2>First Blog Post</h2>
-        <div class="date">June 10, 2024</div>
-        <p>
-          This is my first post on my new blog. Stay tuned for more updates and
-          interesting content!
-        </p>
-      </article>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="../styles/style.css" />
+  <title>Blog</title>
+</head>
 
-      <article>
-        <h2>Another Update</h2>
-        <div class="date">June 11, 2024</div>
-        <p>
-          Today I learned how to create a simple HTML blog. It's easy and fun to
-          get started!
-        </p>
-      </article>
-    </main>
-  </body>
+<body>
+  <div class="container">
+    <div class="center">
+      <h1 class="title">Rust</h1>
+      By default, Rust brings only a few <b>types</b> into the scope of every program in the <i>prelude</i>. If a
+      <b>type</b> you
+      want to use isn't in the prelude, you have to bring that <b>type</b> into scope explicitly with a <code>use</code>
+      statement.
+
+      <h2 class="subtitle">Types</h2>
+      Every value in Rust is of a certain <i>data type</i>, which tells Rust what kind of data is being specified so it
+      knows how to work with that data.
+      <h3>Scalar Types</h3>
+      A <i>scalar</i> type represents a single value. Rust has four primary scalar types: <b>integers</b>,
+      <b>floating-point</b>
+      numbers, <b>booleans</b>, and <b>characters</b>.
+      <h3>Integer Types</h3>
+      An <i>integer</i> is a number without a fractional component. <i>Signed</i> and <i>unsigned</i> refer to whether
+      it's possible for the number to be negative or positive.
+      <b>Rust's default integer representation is <code>i32</code></b>
+      <table>
+        <tr>
+          <th>Length</th>
+          <th>Signed</th>
+          <th>Unsigned</th>
+        </tr>
+        <tr>
+          <td>8-bit</td>
+          <td><code>i8</code></td>
+          <td><code>u8</code></td>
+        </tr>
+        <tr>
+          <td>16-bit</td>
+          <td><code>i16</code></td>
+          <td><code>u16</code></td>
+        </tr>
+        <tr>
+          <td>32-bit</td>
+          <td><code>i32</code></td>
+          <td><code>u32</code></td>
+        </tr>
+        <tr>
+          <td>64-bit</td>
+          <td><code>i64</code></td>
+          <td><code>u64</code></td>
+        </tr>
+        <tr>
+          <td>128-bit</td>
+          <td><code>i128</code></td>
+          <td><code>u128</code></td>
+        </tr>
+        <tr>
+          <td>arch</td>
+          <td><code>isize</code></td>
+          <td><code>usize</code></td>
+        </tr>
+      </table>
+      <br>
+      <table>
+        <tr>
+          <th>Number literals</th>
+          <th>Example</th>
+        </tr>
+        <tr>
+          <td>Decimal</td>
+          <td><code>98_222</code></td>
+        </tr>
+        <tr>
+          <td>Hex</td>
+          <td><code>0xff</code></td>
+        </tr>
+        <tr>
+          <td>Octal</td>
+          <td><code>0o77</code></td>
+        </tr>
+        <tr>
+          <td>Binary</td>
+          <td><code>0b1111_0000</code></td>
+        </tr>
+        <tr>
+          <td>Byte</td>
+          <td><code>b'A'</code></td>
+        </tr>
+      </table>
+      <h3>Floating-Point Types</h3>
+      Rust also has two primitive types for <i>floating-point numbers</i>, which are numbers with decimal points.
+      <b>Rust's default floating-point representation is <code>f64</code></b>
+      <table>
+        <tr>
+          <th>Length</th>
+          <th>Type</th>
+        </tr>
+        <tr>
+          <td>32-bit</td>
+          <td><code>f32</code></td>
+        </tr>
+        <tr>
+          <td>64-bit</td>
+          <td><code>f64</code></td>
+        </tr>
+      </table>
+      <pre>
+        <code>
+          fn main() {
+              let x = 2.0; // f64
+              let y: f32 = 3.0; // f32
+          }
+        </code>
+      </pre>
+      <h3>Numeric Operations</h3>
+      Rust supports the basic mathematical operations you'd expect for all of the number types: <b>addition</b>,
+      <b>subtraction</b>, <b>multiplication</b>, <b>division</b>, and <b>remainder</b>.
+      <pre>
+        <code>
+          fn main() {
+              // addition
+              let sum = 5 + 10;
+              // subtraction
+              let difference = 95.5 - 4.3;
+              // multiplication
+              let product = 4 * 30;
+              // division
+              let quotient = 56.7 / 32.2;
+              // remainder
+              let remainder = 43 % 5;
+          }
+        </code>
+      </pre>
+      <h3>Boolean Type</h3>
+      A <i>boolean</i> type in Rust has two possible values: <code>true</code> and <code>false</code>. Booleans are one
+      byte in size.
+      <pre>
+        <code>
+          fn main() {
+              let t = true;
+              let f: bool = false; // with explicit type annotation
+          }
+        </code>
+      </pre>
+      <h3>Character Type</h3>
+      Rust's <i>char</i> type is the language's most primitive alphabetic type.
+      <pre>
+        <code>
+          fn main() {
+              let c = 'z';
+              let z = 'Z';
+              let heart_eyed_cat = '😻';
+          }
+        </code>
+      </pre>
+      Rust's <i>char</i> type is four bytes in size and represents a Unicode Scalar Value, which means it can represent
+      a lot more than just ASCII. Unicode Scalar Values range from U+0000 to U+D7FF and U+E000 to U+10FFFF inclusive.
+      <h3>Compound Types</h3>
+      <i>Compound types</i> can group multiple values into one type. Rust has two primitive compound types:
+      <b>tuples</b> and <b>arrays</b>.
+      <h3>Tuple Type</h3>
+      A <i>tuple</i> is a general way of grouping together some number of other values with a variety of types into one
+      compund type. Tuples have a fixed length: once declared, they cannot grow or shrink in size.
+      <pre>
+        <code>
+          fn main() {
+              let tup: (i32, f64, u8) = (500, 6.4, 1);
+              let (x, y, z) = tup;
+              println!("The value of y is: {}", y);
+          }
+        </code>
+      </pre>
+
+
+
+
+
+      <table class="post-list">
+        <tbody>
+          <tr>
+            <td><code>println!</code></td>
+            <td>Is a macro that prints a string to the screen.</td>
+          </tr>
+          <tr>
+            <td><code>let</code></td>
+            <td>The <code>let</code> statement is used to create a <i>variable</i>.</td>
+          </tr>
+          <tr>
+            <td><code>//</code></td>
+            <td>The <code>//</code> syntax starts a comment and continues until the end of the line.</td>
+          </tr>
+          <tr>
+            <td><code>::</code></td>
+            <td>The <code>::</code> indicates that the right value is an <i>associated function</i>. Some languages call
+              this a <i>static method</i>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+
 </html>
