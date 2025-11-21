@@ -19,6 +19,32 @@
         statement.
       </p>
 
+      <h2>Scalar Types</h2>
+      <ul>
+        <li>Integer Types</li>
+        <li>Floating-Point Types</li>
+        <li>Boolean Types</li>
+        <li>Character Types</li>
+      </ul>
+
+      <h2>Compound Types</h2>
+      <ul>
+        <li>Tuple Type</li>
+        <li>Array Type</li>
+      </ul>
+
+      <h2>Statements</h2>
+      <ul>
+        <li>Let Statement</li>
+      </ul>
+
+      <h2>Expressions</h2>
+      <ul>
+        <li>If Expression</li>
+        <li>Else Expression</li>
+        <li>Else If Expression</li>
+      </ul>
+
       <h2 class="subtitle">Types</h2>
       <p>
         Every value in Rust is of a certain <i>data type</i>, which tells Rust what kind of data is being specified so
@@ -295,7 +321,7 @@
           }
 
           fn another_function(x: i32) {
-            println!("The value of x is: {}", x);
+              println!("The value of x is: {}", x);
           }
         </code>
       </pre>
@@ -313,8 +339,8 @@
           }
 
           fn another_function(x: i32, y: i32) {
-            println!("The value of x is: {}", x);
-            println!("The value of y is: {}", y);
+              println!("The value of x is: {}", x);
+              println!("The value of y is: {}", y);
           }
         </code>
       </pre>
@@ -384,7 +410,8 @@
       <h4>Return Values</h4>
       <p>
         Functions can return values to the code that calls them. We don't name return values, but we do declare their
-        type after an arrow (->). In rust, the return value of the function is synonymous with the value of the final
+        type after an arrow (<code>-></code>). In rust, the return value of the function is synonymous with the value of
+        the final
         expression in the block of the body of a function. You can return early from a function by using the
         <code>return</code> keyword and specifying a value, but most functions return the last expression implicitly.
       </p>
@@ -398,6 +425,172 @@
           fn main() {
               let x = five();
               println!("The value of x is: {}", x);
+          }
+        </code>
+      </pre>
+
+      <p>
+        The following definition of <code>plus_one</code> says that it will return an <code>i32</code>, but statements
+        don't evaluate to a value, which is expressed by (), an empty tuple. Therefore, nothing is returned, which
+        contradicts the function definition and results in an error.
+      </p>
+
+      <pre>
+        <code>
+          fn main() {
+              let x = plus_one(5);
+              println!("The value of x is: {}", x);
+          }
+
+          fn plus_one(x: i32) -> i32 {
+              x + 1;
+          }
+        </code>
+      </pre>
+
+      <h3>Comments</h3>
+      <p>
+        In Rust, <i>comments</i> must start with two slashes and continue until the end of the line. For comments that
+        extend
+        beyond a single line, you'll need to include <code>//</code> on each line.
+        Comments are mostly used on a separate line above the code it's annotating.
+      </p>
+
+      <h3>Control Flow</h3>
+      <p>
+        The most common constructs that let you control the flow of execution of Rust code are <code>if</code>
+        expressions and <code>loops</code>.
+      </p>
+
+      <h4>If Expressions</h4>
+      <p>
+        An <code>if</code> expression allows you to branch your code depending on conditions. Optionally we can also
+        include an <code>else</code> expression.
+      </p>
+
+      <pre>
+        <code>
+          fn main() {
+              let number = 3;
+
+              if number < 5 {
+                  println!("condition was true");
+              } else {
+                  println!("condition was false");
+              }
+          }
+        </code>
+      </pre>
+
+      <p>
+        Rust will not automatically try to convert non-Boolean types to a Boolean. You must be explicit and always
+        provide <code>if</code> with a Boolean as its condition.
+      </p>
+
+      <p>
+        You can have multiple conditions by combining <code>if</code> and <code>else</code> in an <code>else if</code>
+        expression.
+      </p>
+
+      <p>
+        Rust only executes the block for the first true condition, and once it finds one, it doesn't even check the
+        rest.
+      </p>
+
+      <p>
+        Because <code>if</code> is an expression, we can use it on the righ side of a <code>let</code> statement.
+      </p>
+
+      <pre>
+        <code>
+          fn main() {
+              let condition = true;
+              let number = if condition {
+                  5
+              } else {
+                  6
+              };
+              println!("The value of number is: {}", number);
+          }
+        </code>
+      </pre>
+
+      <h4>Loops</h4>
+      <p>
+        A <code>loop</code> runs through the code inside the loop body to the end and then starts immediately back at
+        the beginning. Rust has three kinds of loops: <code>loop</code>, <code>while</code>, and <code>for</code>.
+      </p>
+
+      <p>
+        The <code>loop</code> keyword tells Rust to execute a block of code over and over again forever or until you
+        explicitly tell it to stop.
+      </p>
+
+      <pre>
+        <code>
+          fn main() {
+              loop {
+                  println!("again!");
+              }
+          }
+        </code>
+      </pre>
+
+      <p>
+        You can place the <code>break</code> keyword within the loop to tell the program when to stop executing the
+        loop.
+      </p>
+
+      <pre>
+        <code>
+          fn main() {
+              let mut counter = 0;
+              let result = loop {
+                  counter += 1;
+                  if counter == 10 {
+                      break counter * 2;
+                  }
+              };
+              println!("The result is {}", result);
+          }
+        </code>
+      </pre>
+
+      <pre>
+        <code>
+          fn main() {
+              let mut number = 3;
+              while number != 0 {
+                  println!("{}!", number);
+                  number = number - 1;
+              }
+              println!("LIFTOFF!!!");
+          }
+        </code>
+      </pre>
+
+      <p>
+        You can also iterate through a collection by using the <code>for</code> keyword.
+      </p>
+
+      <pre>
+        <code>
+          fn main() {
+              let a = [10, 20, 30, 40, 50];
+              for element in a.iter() {
+                  println!("the value is: {}", element);
+              }
+          }
+        </code>
+      </pre>
+
+      <pre>
+        <code>
+          fn main() {
+              for number in (1..4).rev() {
+                  println!("{}!", number);
+              }
+              println!("LIFTOFF!!!");
           }
         </code>
       </pre>
