@@ -6,10 +6,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>daniel.py</title>
     <style>
+        /* Pumpkin spice theme */
+        :root {
+            --accent: #d98327;
+            --link: #a0521a;
+            --link-visited: #7a3e12;
+            --background-color: #fef3e2;
+        }
+
         body {
             max-width: 650px;
-            margin: 30px auto 0px auto;
+            margin: 30px auto;
             padding: 0 1rem;
+            background-color: var(--background-color, white);
+        }
+
+        h2 {
+            border-bottom: 1px solid var(--accent, orange);
+        }
+
+        nav,
+        footer {
+            border-top: 1px solid var(--accent, orange);
+            border-bottom: 1px solid var(--accent, orange);
+            padding: 0.25em 0.5em;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        a {
+            color: var(--link);
+            text-decoration-color: var(--accent, orange);
+            text-decoration-thickness: 1px;
+            text-underline-offset: 3px;
+        }
+
+        a:visited {
+            color: var(--link-visited);
+        }
+
+        a:hover,
+        a:focus {
+            text-decoration-thickness: 2px;
         }
 
         td {
@@ -20,12 +60,14 @@
 </head>
 
 <body>
+    <nav>
+        <a href="/">home</a>
+    </nav>
     <h1>daniel.py</h1>
     <p>Code craftsman</p>
     <p>I mostly work in <i>Python</i> but I've recently taken a liking to <i>C</i>, <i>Go</i> and <i>Lisp</i></p>
     <p>In my free time you can find me playing Noita</p>
     <h2>What I'm currently working on</h2>
-    <hr>
     <table>
         <tr>
             <td><i>papyrus</i></td>
@@ -36,12 +78,11 @@
             <td>Lightweight docker image for my minecraft server</td>
         </tr>
         <tr>
-            <td><i>undefined</i></td>
+            <td><i>untitled</i></td>
             <td>Designing and prototyping a board game</td>
         </tr>
     </table>
     <h2>Programming language design & implementation</h2>
-    <hr>
     <ul>
         <li><a href="https://cmsc430.github.io/">UMD CMSC 430</a></li>
         <li><a href="http://scheme2006.cs.uchicago.edu/11-ghuloum.pdf">An Incremental Approach to Compiler
@@ -55,7 +96,6 @@
         <li><a href="https://interpreterbook.com/">Writing an Interpreter in Go</a></li>
     </ul>
     <h2>Blog posts that I find interesting</h2>
-    <hr>
     <ul>
         <li><a href="https://www.gingerbill.org/series/memory-allocation-strategies/">Memory Allocation
                 Strategies—Article Series</a></li>
@@ -68,20 +108,17 @@
                 generators vs. handwritten parsers: surveying major language implementations in 2021</a></li>
     </ul>
     <h2>Blogs that I frequently read</h2>
-    <hr>
     <ul>
         <li><a href="https://eli.thegreenplace.net/">Eli Bendersky's website</a></li>
         <li><a href="https://oils.pub/blog/">Oils Blog</a></li>
         <li><a href="https://geohot.github.io/blog/">the singularity is nearer</a></li>
     </ul>
     <h2>Software I love</h2>
-    <hr>
     <ul>
         <li><a href="https://suckless.org/">suckless</a></li>
         <li><a href="https://artixlinux.org/">Artix Linux</a></li>
     </ul>
     <h2>Videos that changed how I think about software</h2>
-    <hr>
     <ul>
         <li><a href="https://youtu.be/nQrzB5P5NPE">Making a game in Visual Studio from 1997 | Sean Barrett</a></li>
         <li><a href="https://youtu.be/ZSRHeXYDLko">Preventing the Collapse of Civilization / Jonathan Blow (Thekla,
