@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>daniel.py</title>
+    <style>
+        /* Pumpkin spice theme */
+        :root {
+            --accent: #d98327;
+            --link: #a0521a;
+            --link-visited: #7a3e12;
+            --background-color: #fef3e2;
+        }
+
+        body {
+            max-width: 650px;
+            margin: 30px auto;
+            padding: 0 1rem;
+            background-color: var(--background-color, white);
+        }
+
+        h2 {
+            border-bottom: 1px solid var(--accent, orange);
+        }
+
+        nav,
+        footer {
+            border-top: 1px solid var(--accent, orange);
+            border-bottom: 1px solid var(--accent, orange);
+            padding: 0.25em 0.5em;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        a {
+            color: var(--link);
+            text-decoration-color: var(--accent, orange);
+            text-decoration-thickness: 1px;
+            text-underline-offset: 3px;
+        }
+
+        a:visited {
+            color: var(--link-visited);
+        }
+
+        a:hover,
+        a:focus {
+            text-decoration-thickness: 2px;
+        }
+
+        td {
+            padding-right: 1em;
+            vertical-align: top;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="./blog">Blog</a>
+    </nav>
+    <h1>daniel.py</h1>
+    <p>Code craftsman</p>
+    <p>I mostly work in <i>Python</i> but I've recently taken a liking to <i>C</i>, <i>Go</i> and <i>Lisp</i></p>
+    <p>In my free time you can find me playing Noita</p>
+    <h2>Posts</h2>
+    <table>
+        <tr>
+            <td><i>11.05.26</i></td>
+            <td><a href="">untitled</a></td>
+        </tr>
+    </table>
+    <footer>
+        <p>Check my latest work at <a href="https://github.com/DanielFL0">github.com/DanielFL0</a></p>
+    </footer>
+</body>
+
+</html>
