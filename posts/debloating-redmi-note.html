@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>daniel.py</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="../src/blog.html">Blog</a>
+    </nav>
+    <h1>Adventures in debloating the Redmi Note 14 Pro 5G</h1>
+    <main>
+        <p>It's been a while since I got the Redmi Note 14 Pro 5G. It was sort of a necessary purchase: my old iPhone
+            13's battery started swelling. The cause is still unknown, but I suspect poor charging habits.</p>
+        <p>Huge advances in AI, big companies tracking, stealing and selling your data, every modern website competing
+            to collect as much information as possible from its users: these are things we currently have to live with.
+        </p>
+        <p>But hey, "privacy is for those who have something to hide." Wrong. You have medical records and financial
+            data. Those things are yours, and you should get to decide who you share them with.</p>
+        <p>I don't want my location shared and stored on some random server. I don't want my financial data used to push
+            the latest PC part deals at me. And I couldn't care less about the newest iPhone release or whatever
+            celebrity scandal Google thinks I should read about.</p>
+        <p>All of this made me question what my phone actually needs to do, and I want to keep that to a bare minimum.
+        </p>
+        <h2>What I did</h2>
+        <p>I really wanted to try out GrapheneOS, and I'm deeply disappointed in myself for not choosing a Google Pixel
+            instead of the Redmi Note 14 Pro. But at the time I had to decide on the spot. I couldn't afford to do any
+            research or plan ahead. The battery was getting worse by the day and could have become a serious safety
+            hazard.</p>
+        <p>I won't say much more about GrapheneOS. It only supports Pixel phones, so installing it on my Redmi is off
+            the table.</p>
+        <p>If I can't have total control over my phone, I at least want a way to minimize what information gets shared
+            with Google and Xiaomi, and that's what this post is about.</p>
+        <p>I started by figuring out which apps I didn't need. This was the easiest step: most Android phones today come
+            with the manufacturer's own preinstalled apps and games, and I definitely don't need those. Then I downloaded
+            the <a href="https://developer.android.com/tools/adb">Android Debug Bridge</a> (ADB) tool and added it to my
+            <code>PATH</code>.</p>
+
+        <h3>Connecting the phone</h3>
+        <p>ADB can only talk to the phone once USB debugging is on. On HyperOS, that means unlocking Developer options
+            first (Settings → About phone, tap <em>OS version</em> seven times), then turning on <em>USB debugging</em>
+            in Settings → Additional settings → Developer options. With the phone plugged in and the prompt on its
+            screen accepted, this should list it:</p>
+        <pre><code>adb devices</code></pre>
+
+        <h3>Taking inventory</h3>
+        <p>Before removing anything, I saved the list of packages on the phone so I'd have something to compare against
+            later:</p>
+        <pre><code>adb shell pm list packages -s   # system apps
+adb shell pm list packages -3   # apps I installed
+adb shell pm list packages -d   # disabled apps</code></pre>
+
+        <h3>Removing apps</h3>
+        <p>Most apps came off with the same command:</p>
+        <pre><code>adb shell pm uninstall -k --user 0 &lt;package&gt;</code></pre>
+        <p>This doesn't actually delete system apps. <code>--user 0</code> removes the app for my user only, while the
+            APK stays in the system partition, and <code>-k</code> keeps its data and cache. That makes it reversible:
+            <code>adb shell cmd package install-existing &lt;package&gt;</code> brings an app back, and a factory reset
+            restores everything.</p>
+        <p>The exceptions were ShareMe, Mi Mover, Mi Remote, Calendar, Notes, Sound Recorder and Weather. They seem to
+            be preinstalled as regular apps rather than system apps, so the same command deleted them completely, and
+            <code>install-existing</code> can't bring them back. Getting them back means reinstalling them.</p>
+        <p>Two apps, Calculator and Scanner, refused to uninstall, so I disabled them instead:</p>
+        <pre><code>adb shell pm disable-user --user 0 &lt;package&gt;</code></pre>
+
+        <h3>Apps that needed a replacement first</h3>
+        <p>Some apps do jobs the phone can't live without, so before removing them I made sure something else had taken
+            over:</p>
+        <ul>
+            <li><strong>Gboard:</strong> removing the active keyboard leaves you with no way to type. I switched to
+                <a href="https://github.com/Helium314/HeliBoard">HeliBoard</a> and checked it was the default before
+                removing Gboard, with <code>adb shell settings get secure default_input_method</code>.</li>
+            <li><strong>Chrome:</strong> Android's WebView, which other apps use to show web pages, is a separate
+                package (<code>com.google.android.webview</code>), so Chrome can go. I confirmed it with
+                <code>adb shell dumpsys webviewupdate</code>.</li>
+            <li><strong>Phone and Messages:</strong> I replaced them with Fossify Phone and Fossify Messages and made
+                sure those were the defaults with <code>adb shell cmd role get-role-holders android.app.role.DIALER</code>
+                (and <code>android.app.role.SMS</code>) before removing Xiaomi's and Google's versions.</li>
+        </ul>
+
+        <h3>Replacements</h3>
+        <p>To get apps from somewhere other than Google Play, I installed <a href="https://f-droid.org/">F-Droid</a>:</p>
+        <pre><code>adb install F-Droid.apk</code></pre>
+        <p>I also installed <a href="https://github.com/ImranR98/Obtainium">Obtainium</a>, which installs and updates
+            apps straight from their developers' release pages, such as GitHub.</p>
+        <p>Here's what took over from the apps I removed:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Removed</th>
+                    <th>Replacement</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Chrome, Mi Browser</td>
+                    <td><a href="https://brave.com/">Brave</a></td>
+                </tr>
+                <tr>
+                    <td>Gboard</td>
+                    <td><a href="https://github.com/Helium314/HeliBoard">HeliBoard</a></td>
+                </tr>
+                <tr>
+                    <td>Phone (Xiaomi, Google)</td>
+                    <td><a href="https://github.com/FossifyOrg/Phone">Fossify Phone</a></td>
+                </tr>
+                <tr>
+                    <td>Messages (Xiaomi, Google)</td>
+                    <td><a href="https://github.com/FossifyOrg/Messages">Fossify Messages</a></td>
+                </tr>
+                <tr>
+                    <td>Contacts (Xiaomi, Google)</td>
+                    <td><a href="https://github.com/FossifyOrg/Contacts">Fossify Contacts</a></td>
+                </tr>
+                <tr>
+                    <td>Calendar</td>
+                    <td><a href="https://github.com/FossifyOrg/Calendar">Fossify Calendar</a></td>
+                </tr>
+                <tr>
+                    <td>Gallery, Google Photos</td>
+                    <td><a href="https://github.com/FossifyOrg/Gallery">Fossify Gallery</a></td>
+                </tr>
+                <tr>
+                    <td>File Manager, Files by Google</td>
+                    <td><a href="https://github.com/FossifyOrg/File-Manager">Fossify File Manager</a></td>
+                </tr>
+                <tr>
+                    <td>Google Maps</td>
+                    <td><a href="https://organicmaps.app/">Organic Maps</a></td>
+                </tr>
+                <tr>
+                    <td>Mi Video, Mi Music</td>
+                    <td><a href="https://www.videolan.org/vlc/">VLC</a></td>
+                </tr>
+                <tr>
+                    <td>GetApps</td>
+                    <td>F-Droid, Obtainium</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>What I removed</h3>
+        <p>In total, I removed 84 apps. Here's the full list in case you want a starting point, but don't copy it
+            blindly: you might actually use some of these.</p>
+
+        <h4>Xiaomi: ads, telemetry and services</h4>
+        <ul>
+            <li>MIUI System Ads (<code>com.miui.msa.global</code>)</li>
+            <li>Analytics (<code>com.miui.analytics</code>)</li>
+            <li>MIUI Daemon (<code>com.miui.daemon</code>)</li>
+            <li>MiSight (<code>com.miui.misightservice</code>)</li>
+            <li>Bug Report (<code>com.miui.bugreport</code>)</li>
+            <li>Services &amp; Feedback (<code>com.miui.miservice</code>)</li>
+            <li>System Apps Updater (<code>com.xiaomi.discover</code>)</li>
+            <li>SIM Activation Service (<code>com.xiaomi.simactivate.service</code>)</li>
+            <li>Payment service (<code>com.xiaomi.payment</code>)</li>
+            <li>Cloud Backup (<code>com.miui.cloudbackup</code>)</li>
+            <li>Cloud Sync (<code>com.miui.micloudsync</code>)</li>
+            <li>Yellow Pages (<code>com.miui.yellowpage</code>)</li>
+            <li>Cleaner (<code>com.miui.cleaner</code>)</li>
+        </ul>
+
+        <h4>Xiaomi: apps</h4>
+        <ul>
+            <li>Mi Browser (<code>com.mi.globalbrowser</code>)</li>
+            <li>Xiaomi Store (<code>com.mi.global.shop</code>)</li>
+            <li>Xiaomi Community (<code>com.mi.global.bbs</code>)</li>
+            <li>GetApps (<code>com.xiaomi.mipicks</code>)</li>
+            <li>Game Center (<code>com.xiaomi.glgm</code>)</li>
+            <li>Xiaomi Home (<code>com.xiaomi.smarthome</code>)</li>
+            <li>Wallpaper Carousel (<code>com.miui.android.fashiongallery</code>)</li>
+            <li>App Vault (<code>com.mi.globalminusscreen</code>)</li>
+            <li>Mi Video (<code>com.miui.videoplayer</code>)</li>
+            <li>Mi Music (<code>com.miui.player</code>)</li>
+            <li>Gallery (<code>com.miui.gallery</code>)</li>
+            <li>File Manager (<code>com.mi.android.globalFileexplorer</code>)</li>
+            <li>Themes (<code>com.android.thememanager</code>)</li>
+            <li>Messages (<code>com.android.mms</code>)</li>
+            <li>Phone &amp; Contacts (<code>com.android.contacts</code>)</li>
+            <li>In-call screen (<code>com.android.incallui</code>)</li>
+            <li>Downloads (<code>com.android.providers.downloads.ui</code>)</li>
+            <li>Mi Doc Viewer (<code>cn.wps.xiaomi.abroad.lite</code>)</li>
+            <li>ShareMe (<code>com.xiaomi.midrop</code>)</li>
+            <li>Mi Mover (<code>com.miui.huanji</code>)</li>
+            <li>Mi Remote (<code>com.duokan.phone.remotecontroller</code>)</li>
+            <li>Calendar (<code>com.xiaomi.calendar</code>)</li>
+            <li>Notes (<code>com.miui.notes</code>)</li>
+            <li>Sound Recorder (<code>com.android.soundrecorder</code>)</li>
+            <li>Weather (<code>com.miui.weather2</code>)</li>
+        </ul>
+
+        <h4>Google: apps</h4>
+        <ul>
+            <li>Chrome (<code>com.android.chrome</code>)</li>
+            <li>Gmail (<code>com.google.android.gm</code>)</li>
+            <li>Drive (<code>com.google.android.apps.docs</code>)</li>
+            <li>Photos (<code>com.google.android.apps.photos</code>)</li>
+            <li>Meet (<code>com.google.android.apps.tachyon</code>)</li>
+            <li>YouTube (<code>com.google.android.youtube</code>)</li>
+            <li>YouTube Music (<code>com.google.android.apps.youtube.music</code>)</li>
+            <li>Google TV (<code>com.google.android.videos</code>)</li>
+            <li>Google One (<code>com.google.android.apps.subscriptions.red</code>)</li>
+            <li>Google app (<code>com.google.android.googlequicksearchbox</code>)</li>
+            <li>Gemini (<code>com.google.android.apps.bard</code>)</li>
+            <li>Maps (<code>com.google.android.apps.maps</code>)</li>
+            <li>Find My Device (<code>com.google.android.apps.adm</code>)</li>
+            <li>Messages (<code>com.google.android.apps.messaging</code>)</li>
+            <li>Phone (<code>com.google.android.dialer</code>)</li>
+            <li>Contacts (<code>com.google.android.contacts</code>)</li>
+            <li>Files (<code>com.google.android.apps.nbu.files</code>)</li>
+            <li>Gboard (<code>com.google.android.inputmethod.latin</code>)</li>
+            <li>Google Home (<code>com.google.android.apps.chromecast.app</code>)</li>
+            <li>Android Auto (<code>com.google.android.projection.gearhead</code>)</li>
+            <li>Digital Wellbeing (<code>com.google.android.apps.wellbeing</code>)</li>
+        </ul>
+
+        <h4>Google: services</h4>
+        <ul>
+            <li>Android System Intelligence (<code>com.google.android.as</code>)</li>
+            <li>Private Compute Services (<code>com.google.android.as.oss</code>)</li>
+            <li>"Ok Google" voice enrollment (<code>com.android.hotwordenrollment.okgoogle</code>,
+                <code>com.android.hotwordenrollment.xgoogle</code>)</li>
+            <li>Speech Services (<code>com.google.android.tts</code>)</li>
+            <li>Location History (<code>com.google.android.gms.location.history</code>)</li>
+            <li>Family Link supervision (<code>com.google.android.gms.supervision</code>)</li>
+            <li>Feedback (<code>com.google.android.feedback</code>)</li>
+            <li>Partner Setup (<code>com.google.android.partnersetup</code>)</li>
+            <li>Data restore tool (<code>com.google.android.apps.restore</code>)</li>
+            <li>Calendar Sync (<code>com.google.android.syncadapters.calendar</code>)</li>
+            <li>TalkBack (<code>com.google.android.marvin.talkback</code>)</li>
+            <li>Switch Access (<code>com.google.android.accessibility.switchaccess</code>)</li>
+            <li>Print Service Recommendation (<code>com.google.android.printservice.recommendation</code>)</li>
+            <li>Cross-device app streaming (<code>com.google.ambient.streaming</code>)</li>
+        </ul>
+
+        <h4>Everyone else</h4>
+        <ul>
+            <li>Facebook's preinstalled services (<code>com.facebook.appmanager</code>,
+                <code>com.facebook.services</code>, <code>com.facebook.system</code>)</li>
+            <li>Netflix (<code>com.netflix.mediaclient</code>)</li>
+            <li>Amazon Music (<code>com.amazon.mp3</code>)</li>
+            <li>AliExpress (<code>com.alibaba.aliexpresshd</code>)</li>
+            <li>Booking.com (<code>com.booking</code>)</li>
+            <li>LinkedIn (<code>com.linkedin.android</code>)</li>
+            <li>OneDrive (<code>com.microsoft.skydrive</code>)</li>
+            <li>WPS Office (<code>cn.wps.moffice_eng</code>)</li>
+        </ul>
+
+        <h3>Network</h3>
+        <p>I also set Private DNS (Settings → Connection &amp; sharing → Private DNS) to Mullvad's ad-blocking resolver,
+            <code>adblock.dns.mullvad.net</code>. It blocks ads and trackers for every app on the phone, and my DNS
+            queries go to Mullvad, encrypted, instead of to my carrier.</p>
+
+        <h3>The trade-offs</h3>
+        <p>None of this is free. Here's what I gave up:</p>
+        <ul>
+            <li>No Find My Device, so if I lose the phone, I can't locate it.</li>
+            <li>No TalkBack or Google's text-to-speech, so the screen reader and voice output are gone.</li>
+            <li>No updates for Xiaomi's own apps, since GetApps and the System Apps Updater are gone.</li>
+            <li>No Xiaomi Cloud backup or sync.</li>
+        </ul>
+    </main>
+    <footer>
+        <p>Check my latest work at <a href="https://github.com/DanielFL0">github.com/DanielFL0</a></p>
+    </footer>
+</body>
+
+</html>
